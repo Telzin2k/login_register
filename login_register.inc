@@ -27,13 +27,35 @@ stock HidePlayerLogin(playerid)
 	return 1;
 }
 
+stock SetPlayerLastPosition(playerid)
+{
+        SetPlayerInterior(playerid, Player[playerid][pInterior]);
+        SetPlayerVirtualWorld(playerid, Player[playerid][pWorld]);
+        SetPlayerFacingAngle(playerid, Player[playerid][pPos][3]);
+        SetPlayerPos(playerid, Player[playerid][pPos][0], Player[playerid][pPos][1], Player[playerid][pPos][2]);
+	return 1;
+}
+
+//----------------------------------------------------------------------------
+
+
 hook OnPlayerConnect(playerid)
 {
 	ShowPlayerLogin(playerid);
 	return 1;
 }
 
-//----------------------------------------------------------------------------
+
+hook OnPlayerSpawn(playerid)
+{
+    SetPlayerFreeze(playerid, 5);
+    SetPlayerSkin(playerid, Player[playerid][pSkin]);
+
+    SetPlayerLastPosition(playerid);
+//  StartPlayerTextDrawFadeBox(playerid, TexDrawnFade[playerid], 0x000000FF, 0x00000000, 3,60);
+    return 1;
+}
+
 
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
