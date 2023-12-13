@@ -1,27 +1,8 @@
-/* ***************************************************************************
-*  Nome do Arquivo: modules/gRP_login_register/login_register.inc            *
-*                                                                            *
-*  Descrição: Sistema de login e registro do servidor.                       *
-*                                                                            *
-*         Copyright © GTA Rio Rleplay. Todos os direitos reservados.         *
-* ****************************************************************************/
-
 #include <YSI_Coding\y_hooks>
 
 #include "../modules/gRP_login_register/login_textdraw.inc"
 
 //----------------------------------------------------------------------------
-
-stock LogarPlayerDirect(playerid)
-{
-	LoadPlayerAccount(playerid);
-	HidePlayerLogin(playerid);
-	SpawnPlayer(playerid);
-
-	Player[playerid][pLogged] = true;
-	CallLocalFunction("OnPlayerLoggedIn", "d", playerid);
-	return 1;
-}
 
 stock ShowPlayerLogin(playerid)
 {
@@ -29,14 +10,14 @@ stock ShowPlayerLogin(playerid)
     for(new i = 0; i != 11; i++) TextDrawShowForPlayer(playerid, TelaLogin[i]);
 
     TogglePlayerSpectating(playerid, true);
-	SelectTextDraw(playerid, 0xA9A9A9FF);
-	SetPlayerColor(playerid, 0xFFFFFFFF);
+    SelectTextDraw(playerid, 0xA9A9A9FF);
+    SetPlayerColor(playerid, 0xFFFFFFFF);
     SetPlayerInterior(playerid, 6);
     SetPlayerVirtualWorld(playerid, playerid + MAX_PLAYERS);
 
-	InterpolateCameraPos(playerid, 219.441238, 71.956039, 1005.816406, 219.441238, 71.956039, 1005.816406, 1000);
-	InterpolateCameraLookAt(playerid, 219.401382, 66.973983, 1005.395019, 219.401382, 66.973983, 1005.395019, 1000);
-	return 1;
+    InterpolateCameraPos(playerid, 219.441238, 71.956039, 1005.816406, 219.441238, 71.956039, 1005.816406, 1000);
+    InterpolateCameraLookAt(playerid, 219.401382, 66.973983, 1005.395019, 219.401382, 66.973983, 1005.395019, 1000);
+    return 1;
 }
 
 stock HidePlayerLogin(playerid)
@@ -48,7 +29,6 @@ stock HidePlayerLogin(playerid)
 
 hook OnPlayerConnect(playerid)
 {
-//	LogarPlayerDirect(playerid);
 	ShowPlayerLogin(playerid);
 	return 1;
 }
@@ -64,7 +44,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			if(!strlen(inputtext))
 			{
 				ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD,
-				" ", "\n{FC1515}Atenção: A senha que você inseriu está incorreta!\n\n{FFFFFF}Insira sua senha novamente para entrar no servidor.", "Entrar", "Cancelar");
+				" ", "\n{FC1515}AtenÃ§Ã£o: A senha que vocÃª inseriu estÃ¡ incorreta!\n\n{FFFFFF}Insira sua senha novamente para entrar no servidor.", "Entrar", "Cancelar");
 				return 1;
 			}
 
@@ -88,7 +68,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			else
 			{
 				ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD,
-				" ", "\n{FC1515}Atenção: A senha que você inseriu está incorreta!\n\n{FFFFFF}Insira sua senha novamente para entrar no servidor.", "Entrar", "Cancelar");
+				" ", "\n{FC1515}AtenÃ§Ã£o: A senha que vocÃª inseriu estÃ¡ incorreta!\n\n{FFFFFF}Insira sua senha novamente para entrar no servidor.", "Entrar", "Cancelar");
 				return 1;
 			}
 		}
@@ -97,7 +77,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		    SelectTextDraw(playerid, 0x808080FF);
 		}
 	}
-    if(dialogid == DIALOG_REGISTRO)
+        if(dialogid == DIALOG_REGISTRO)
 	{
 		if(response)
 		{
@@ -120,8 +100,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			DOF2_SetFloat(String, "LastPosA", 0.000);
 			DOF2_SaveFile();
 
-	        format(String2, sizeof(String2), "\n{FFFFFF}%s, insira sua senha para entrar na cidade.", GetPlayerUser(playerid));
-	    	ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, " ", String2, "Entrar", "Cancelar");		
+	                format(String2, sizeof(String2), "\n{FFFFFF}%s, insira sua senha para entrar na cidade.", GetPlayerUser(playerid));
+	    		ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, " ", String2, "Entrar", "Cancelar");		
 		}
 		else
 		{
@@ -135,25 +115,24 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
- 	// Tela de Login e Registro
 	new String[60], String2[180];
 	format(String, sizeof(String), ACCOUNTS_FOLDER, GetPlayerUser(playerid));
 
-	if(clickedid == TelaLogin[5]) // Entrar
+	if(clickedid == TelaLogin[5]) // Textdraw Login
 	{
 		if(DOF2_FileExists(String))
 		{
-	        format(String2, sizeof(String2), "\n{FFFFFF}Olá %s, seja bem-vindo(a) novamente,\ninsira sua senha para entrar na cidade.", GetPlayerUser(playerid));
-	    	ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, " ", String2, "Entrar", "Cancelar");
-	        return 1;
-	    }
-	    else
-	    {
-			ShowPlayerDialog(playerid, DIALOG_AVISO, DIALOG_STYLE_MSGBOX, " ", "\n{A9A9A9}Atenção: Sua conta não está registrada em nosso banco de dados!\nClique em 'registrar' para registrar sua conta em nosso banco de dados.", "OK", "");
+	        	format(String2, sizeof(String2), "\n{FFFFFF}OlÃ¡ %s, seja bem-vindo(a) novamente,\ninsira sua senha para entrar na cidade.", GetPlayerUser(playerid));
+	    		ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, " ", String2, "Entrar", "Cancelar");
+	        	return 1;
+	    	}
+		else
+	    	{
+			ShowPlayerDialog(playerid, DIALOG_AVISO, DIALOG_STYLE_MSGBOX, " ", "\n{A9A9A9}AtenÃ§Ã£o: Sua conta nÃ£o estÃ¡ registrada em nosso banco de dados!\nClique em 'registrar' para registrar sua conta em nosso banco de dados.", "OK", "");
 			return 1;
-	    }
+	    	}
 	}
-	if(clickedid == TelaLogin[6]) // Registrar
+	if(clickedid == TelaLogin[6]) // Textdraw Register
 	{
 		if(!DOF2_FileExists(String))
 		{
@@ -163,17 +142,17 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 		}
 		else
 		{
-			ShowPlayerDialog(playerid, DIALOG_AVISO, DIALOG_STYLE_MSGBOX, " ", "\n{A9A9A9}Atenção: Sua conta já está registrada em nosso banco de dados.\nClique em 'entrar' para entrar em sua conta.", "OK", "");
+			ShowPlayerDialog(playerid, DIALOG_AVISO, DIALOG_STYLE_MSGBOX, " ", "\n{A9A9A9}AtenÃ§Ã£o: Sua conta jÃ¡ estÃ¡ registrada em nosso banco de dados.\nClique em 'entrar' para entrar em sua conta.", "OK", "");
 			return 1;
 		}
 	}
-	if(clickedid == TelaLogin[7]) // Recuperar conta
+	if(clickedid == TelaLogin[7]) // Textdraw Recover account
 	{
 		return 1;
 	}
-	if(clickedid == TelaLogin[8]) // Sair
+	if(clickedid == TelaLogin[8]) // Textdraw Exit
 	{
-	    GameTextForPlayer(playerid, "$!#{]{]Â¨Â¨**&~w", 1000, 6); // Fechar o GTA do Jogador
+	    GameTextForPlayer(playerid, "$!#{]{]Ã‚Â¨Ã‚Â¨**&~w", 1000, 6);
 	    return 1;
 	}
 	return 1;
